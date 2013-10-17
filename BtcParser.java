@@ -1,6 +1,12 @@
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpUtils;
 
-import org.json.JSONObject;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+
 
 /*
  *  Kole Reece & Andre Haynes 
@@ -9,15 +15,57 @@ import org.json.JSONObject;
  */
 public class BtcParser {
 
-	public String apiKey="";
+	public  String apiKey="";
 	
 	private String result="";
 	
-	private static final String URL="";
+	public  String method;
 	
-	public JSONObject doPost()
+	private int nonce=100;// hard code for now
+	
+	private URL url;
+	
+
+	
+	public void doPost()
 	{
-		result=HttpUtil.httpPost(URL);
+		URLConnection connection=null;
 		
+		try {
+			url = new URL("https://btc-e.com/tapi");
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		try {
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+	    try {
+	    	
+			connection.connect();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    try {
+			connection.getContent();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    System.out.println();
 	}
+	
+	
+	//System.out.Println(result);
+	
 }
