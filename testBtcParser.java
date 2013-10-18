@@ -1,15 +1,25 @@
+import java.io.IOException;
+
 
 public class testBtcParser {
 
 	
-	public static void main (String []args )
+	public static void main (String []args ) 
 	{
+		
+		
+	
 		BtcParser btc = new BtcParser();
 		
 		while(true)
 		{
 			
-			btc.doPost();
+			try {
+				btc.doPost();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			
 			try {
@@ -19,6 +29,7 @@ public class testBtcParser {
 			    System.out.println(ie);
 			}
 		}
+	
 	}
 	
 }
