@@ -19,6 +19,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -45,16 +48,36 @@ public class BtcParser {
 	private String url;
 	
     String line;
+    
+   // private HashMap<String,String> postData;
+    
+    private String  queryString;
 	
 	public void doPost() 
 	{
-        this.apiKey="";
-        this.secret="";
+		
+		
+        this.apiKey="aaaaaaaaaaa";
+        this.secret="daaaaaaaaaa";
         this.method="getInfo";
+       
         
-        Mac macEncoding;
+         queryString="method=getInfo&nonce=100";
+         
+         
+         
+        /*
+        postData= new HashMap<String,String>();
+        */
+        
+        /*
+        postData.put("method","getInfo");
+        postData.put("nonce","100");
+        */
+        Mac macEncoding=null;
         SecretKeySpec key = null;
         
+       
         try {
            key = new SecretKeySpec( apiKey.getBytes( "UTF-8"), "HmacSHA512" );
         } catch( UnsupportedEncodingException uee) {
@@ -63,42 +86,63 @@ public class BtcParser {
         } 
         
         
+        
+        
+            try {
+				macEncoding = Mac.getInstance( "HmacSHA512" );
+			} catch (NoSuchAlgorithmException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+        
+        
+        
+        try {
+			macEncoding.init(key);
+		} catch (InvalidKeyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
+        
+
+        
         CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet("https://btc-e.com/tapi");
+        httpGet.setHeader("Key",key.toString());
        
-       
-       HttpGet httpGet = new HttpGet("https://btc-e.com/tapi");
        
        
        try {
-		CloseableHttpResponse response1 = httpclient.execute(httpGet);
+    	   
+    	   
+		  CloseableHttpResponse response1 = httpclient.execute(httpGet);
 	
-		 HttpEntity entity = response1.getEntity();
+		  HttpEntity entity = response1.getEntity();
 		 
- 	      InputStreamReader test =  new InputStreamReader(entity.getContent());
+ 	      InputStreamReader Is=  new InputStreamReader(entity.getContent());
  	      
- 	      BufferedReader rd = new BufferedReader(test);
+ 	      BufferedReader rd = new BufferedReader(Is);
  	      
- 	      
- 	     String line;
+ 	      String line;
  	     
- 	      while((line=rd.readLine())!=null)
- 	      {
+ 	      while((line=rd.readLine())!=null){
  	    	  
  	    	System.out.println(line);  
+ 	    	
  	      }
  	      
  	      
  	    
 	    } 
        
-     catch (ClientProtocolException e) {
+       catch (ClientProtocolException e) {
 		    e.printStackTrace();
-		    
 		    
 	  } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-	
+	  
     }
 }
